@@ -6,25 +6,46 @@ import (
 
 // UserController is the /user endpoint
 func UserController(router *gin.Engine) {
-	router.POST("/user", func(c *gin.Context) {
-		// tbd
-	})
-	router.POST("/user/createWithList", func(c *gin.Context) {
-		// tbd
-	})
-	router.GET("/user/login", func(c *gin.Context) {
-		// tbd
-	})
-	router.GET("/user/logout", func(c *gin.Context) {
-		// tbd
-	})
-	router.GET("/user/:username", func(c *gin.Context) {
-		// tbd
-	})
-	router.PUT("/user/:username", func(c *gin.Context) {
-		// tbd
-	})
-	router.DELETE("/user/:username", func(c *gin.Context) {
-		// tbd
-	})
+	router.POST("/user", CreateUser)
+	router.POST("/user/createWithList", CreateUsersWithListInput)
+	router.GET("/user/login", LoginUser)
+	router.GET("/user/logout", LogoutUser)
+	router.GET("/user/:username", GetUserByName)
+	router.PUT("/user/:username", UpdateUser)
+	router.DELETE("/user/:username", DeleteUser)
+}
+
+// CreateUser creates a new user
+func CreateUser(context *gin.Context) {
+
+}
+
+// CreateUsersWithListInput creates multiple users
+func CreateUsersWithListInput(context *gin.Context) {
+
+}
+
+// LoginUser logs a user in
+func LoginUser(context *gin.Context) {
+
+}
+
+// LogoutUser logs a user out
+func LogoutUser(context *gin.Context) {
+
+}
+
+// GetUserByName get a user by name
+func GetUserByName(context *gin.Context) {
+
+}
+
+// UpdateUser updates an existing user
+func UpdateUser(context *gin.Context) {
+
+}
+
+// DeleteUser deletes a user
+func DeleteUser(context *gin.Context) {
+
 }
