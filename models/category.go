@@ -1,4 +1,4 @@
-package main
+package models
 
 // Category of pet
 type Category struct {
