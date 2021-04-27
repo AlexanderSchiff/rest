@@ -34,4 +34,5 @@ func main() {
 	go user()
 	go db()
 	waitGroup.Wait()
+	router.Run()
 }
