@@ -2,7 +2,7 @@ package models
 
 import (
 	"gorm.io/gorm"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/sqlite"
 )
 
 // DB database
@@ -10,8 +10,7 @@ var DB *gorm.DB
 
 // ConnectDataBase connect database
 func ConnectDataBase() {
-	dsn := "user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
 	if (err != nil) {
 		panic("Failed to connect to database!")
 	}

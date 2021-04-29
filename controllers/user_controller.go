@@ -8,8 +8,6 @@ import (
 func UserController(router *gin.Engine) {
 	router.POST("/user", CreateUser)
 	router.POST("/user/createWithList", CreateUsersWithListInput)
-	router.GET("/user/login", LoginUser)
-	router.GET("/user/logout", LogoutUser)
 	router.GET("/user/:username", GetUserByName)
 	router.PUT("/user/:username", UpdateUser)
 	router.DELETE("/user/:username", DeleteUser)
@@ -22,16 +20,6 @@ func CreateUser(context *gin.Context) {
 
 // CreateUsersWithListInput creates multiple users
 func CreateUsersWithListInput(context *gin.Context) {
-
-}
-
-// LoginUser logs a user in
-func LoginUser(context *gin.Context) {
-
-}
-
-// LogoutUser logs a user out
-func LogoutUser(context *gin.Context) {
 
 }
 

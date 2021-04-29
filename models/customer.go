@@ -4,5 +4,5 @@ package models
 type Customer struct {
 	ID int64 `json:"id" gorm:"primary_key"`
 	Username string `json:"username"`
-	Address Address `json:"address"`
+	Address Address `json:"address" gorm:"foreignKey:CustomerID"`
 }
