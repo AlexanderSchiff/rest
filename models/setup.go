@@ -18,5 +18,10 @@ func ConnectDataBase() {
 	db.AutoMigrate(&Address{})
 	db.AutoMigrate(&Category{})
 	db.AutoMigrate(&Customer{})
+	db.AutoMigrate(&Order{})
+	db.AutoMigrate(&Tag{})
+	db.AutoMigrate(&Photo{})
+	db.AutoMigrate(&Pet{})
+	db.AutoMigrate(&User{})
 	DB = db
 }
