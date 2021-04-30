@@ -5,6 +5,7 @@ import (
 
 	"github.com/AlexanderSchiff/rest/controllers"
 	"github.com/AlexanderSchiff/rest/models"
+	"github.com/AlexanderSchiff/rest/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,10 +20,10 @@ func main() {
 	}
 	store := func() {
 		controllers.StoreController(router)
-		waitGroup.Done()		
+		waitGroup.Done()
 	}
 	user := func() {
-		controllers.UserController(router)
+		controllers.UserController{Router: router, UserService: services.UserService{DB: models.DB}}.Handle()
 		waitGroup.Done()
 	}
 	db := func() {
