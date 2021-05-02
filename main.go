@@ -2,7 +2,6 @@ package main
 
 import (
 	"sync"
-
 	"github.com/AlexanderSchiff/rest/controllers"
 	"github.com/AlexanderSchiff/rest/models"
 	"github.com/AlexanderSchiff/rest/services"
@@ -11,29 +10,30 @@ import (
 
 // Main function
 func main() {
+	models.ConnectDataBase()
+	dB := models.DB
 	var waitGroup sync.WaitGroup
-	waitGroup.Add(4)
+	waitGroup.Add(3)
 	router := gin.Default()
 	pet := func() {
 		controllers.PetController(router)
 		waitGroup.Done()
 	}
 	store := func() {
-		controllers.StoreController(router)
+		storeService := services.StoreService{DB: dB}
+		storeController := controllers.StoreController{Router: router, StoreService: storeService}
+		storeController.Handle()
 		waitGroup.Done()
 	}
 	user := func() {
-		controllers.UserController{Router: router, UserService: services.UserService{DB: models.DB}}.Handle()
-		waitGroup.Done()
-	}
-	db := func() {
-		models.ConnectDataBase()
+		userService := services.UserService{DB: dB}
+		userController := controllers.UserController{Router: router, UserService: userService}
+		userController.Handle()
 		waitGroup.Done()
 	}
 	go pet()
 	go store()
 	go user()
-	go db()
 	waitGroup.Wait()
 	router.Run()
 }

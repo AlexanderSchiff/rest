@@ -1,11 +1,7 @@
 package controllers
 
-import (
-	"sync"
-	"github.com/gin-gonic/gin"
-)
+import "github.com/gin-gonic/gin"
 
-var waitGroup sync.WaitGroup
 
 // PetController is the /pet route
 func PetController(router *gin.Engine) {
@@ -14,7 +10,7 @@ func PetController(router *gin.Engine) {
 	router.GET("/pet/findByStatus", FindPetsByStatus)
 	router.GET("/pet/findByTags", FindPetsByTags)
 	router.GET("/pet/:petId", GetPetByID)
-	router.POST("/pet/:petId", UpdatePetWithForm)
+	router.PUT("/pet/:petId", UpdatePetWithForm)
 	router.DELETE("/pet/:petId", DeletePet)
 	router.POST("/pet/:petId/uploadImage", UploadFile)
 }

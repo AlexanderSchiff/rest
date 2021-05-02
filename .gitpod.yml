@@ -4,3 +4,7 @@ image:
 tasks:
   - init: go get && go build ./... && go test ./...
     command: go run main.go
+
+vscode:
+  extensions:
+    - alexcvzz.vscode-sqlite@0.12.0:1159ee1f58892d78a121071408429b7a

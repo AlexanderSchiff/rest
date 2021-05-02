@@ -30,7 +30,7 @@ func (uC UserController) CreateUser(context *gin.Context) {
 		return
 	}
 	users := make([]models.User, 1)
-	users[1] = user
+	users[0] = user
 
 	users, err := uC.UserService.Create(users)
 	if err != nil {

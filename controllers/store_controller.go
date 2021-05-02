@@ -1,32 +1,72 @@
 package controllers
 
 import (
-  "github.com/gin-gonic/gin"
+	"strconv"
+	"net/http"
+	"github.com/gin-gonic/gin"
+	"github.com/AlexanderSchiff/rest/models"
+	"github.com/AlexanderSchiff/rest/services"
 )
 
-// StoreController /store endpoint
-func StoreController(router *gin.Engine) {
-	router.GET("/store/inventory", GetInventory)
-	router.POST("/store/order", PlaceOrder)
-	router.GET("/store/order/:orderId", GetOrderByID)
-	router.DELETE("/store/order/:orderId", DeleteOrder)
+// StoreController is the /store controller
+type StoreController struct {
+	Router *gin.Engine
+	StoreService services.StoreServicePrototype
 }
 
-// GetInventory gets the inventory of a store
-func GetInventory(context *gin.Context) {
-
+// Handle /store endpoint
+func (sC StoreController) Handle() {
+	sC.Router.POST("/store/order", sC.PlaceOrder)
+	sC.Router.GET("/store/order/:orderId", sC.GetOrderByID)
+	sC.Router.DELETE("/store/order/:orderId", sC.DeleteOrder)
 }
 
 // PlaceOrder places a new order in a store
-func PlaceOrder(context *gin.Context) {
+func (sC StoreController) PlaceOrder(context *gin.Context) {
+	var order models.Order
+	if err := context.ShouldBindJSON(&order); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
+	order, err := sC.StoreService.Create(order)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	context.JSON(http.StatusCreated, gin.H{"data": order})
 }
 
 // GetOrderByID gets the order by ID
-func GetOrderByID(context *gin.Context) {
+func (sC StoreController) GetOrderByID(context *gin.Context) {
+	id, err := strconv.ParseInt(context.Param("orderId"), 10, 64)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	order, err := sC.StoreService.GetByOrderID(id)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"data": order})
 }
 
 // DeleteOrder deletes an order
-func DeleteOrder(context *gin.Context) {
+func (sC StoreController) DeleteOrder(context *gin.Context) {
+	id, err := strconv.ParseInt(context.Param("orderId"), 10, 64)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	
+	message, err := sC.StoreService.Delete(id)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
+	context.JSON(http.StatusOK, gin.H{"data": message})
 }

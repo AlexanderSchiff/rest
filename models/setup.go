@@ -14,7 +14,7 @@ func ConnectDataBase() {
 	if (err != nil) {
 		panic("Failed to connect to database!")
 	}
-
+	
 	db.AutoMigrate(&Address{})
 	db.AutoMigrate(&Category{})
 	db.AutoMigrate(&Customer{})
