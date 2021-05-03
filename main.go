@@ -1,26 +1,39 @@
 package main
 
 import (
-	"fmt"
-	"os"
-	"strconv"
+	"sync"
+	"github.com/AlexanderSchiff/rest/controllers"
+	"github.com/AlexanderSchiff/rest/models"
+	"github.com/AlexanderSchiff/rest/services"
+	"github.com/gin-gonic/gin"
 )
 
+// Main function
 func main() {
-	array := os.Args[1:]
-	fmt.Print("Sum = ")
-	fmt.Print(AddArray(array))
-	fmt.Println()
-}
-
-// AddArray adds up ints in a string array
-func AddArray(array []string) int {
-	sum := 0
-	for _, str := range array {
-		val, err := strconv.Atoi(str)
-		if err == nil {
-			sum += val
-		} 
+	models.ConnectDataBase()
+	dB := models.DB
+	var waitGroup sync.WaitGroup
+	waitGroup.Add(3)
+	router := gin.Default()
+	pet := func() {
+		controllers.PetController(router)
+		waitGroup.Done()
 	}
-	return sum
+	store := func() {
+		storeService := services.StoreService{DB: dB}
+		storeController := controllers.StoreController{Router: router, StoreService: storeService}
+		storeController.Handle()
+		waitGroup.Done()
+	}
+	user := func() {
+		userService := services.UserService{DB: dB}
+		userController := controllers.UserController{Router: router, UserService: userService}
+		userController.Handle()
+		waitGroup.Done()
+	}
+	go pet()
+	go store()
+	go user()
+	waitGroup.Wait()
+	router.Run()
 }
