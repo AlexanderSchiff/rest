@@ -63,3 +63,15 @@ func (pS PetService) GetByTags(tags []models.Tag) (outputPets []models.Pet, err 
 	err = pS.DB.Find(&outputPets, ids).Error
 	return outputPets, err
 }
+
+// Delete delete an existing order
+func (pS PetService) Delete(id int64) (message string, err error) {
+	var pet models.Pet
+	err = pS.DB.First(&pet, id).Error
+	if err != nil {
+		return "not found!", err
+	}
+
+	pS.DB.Delete(&pet)
+	return "success", err
+}
