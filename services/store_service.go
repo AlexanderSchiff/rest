@@ -19,14 +19,14 @@ func (sS StoreService) Create(order models.Order) (outputOrder models.Order, err
 
 // GetByOrderID retrieves an order by id
 func (sS StoreService) GetByOrderID(id int64) (outputOrder models.Order, err error) {
-	err = sS.DB.Where("id = ?", id).First(&outputOrder).Error
+	err = sS.DB.First(&outputOrder, id).Error
 	return outputOrder, err
 }
 
 // Delete delete an existing order
 func (sS StoreService) Delete(id int64) (message string, err error) {
 	var order models.Order
-	err = sS.DB.Where("id = ?", id).First(&order).Error
+	err = sS.DB.First(&order, id).Error
 	if err != nil {
 		return "not found!", err
 	}

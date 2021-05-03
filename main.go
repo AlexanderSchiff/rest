@@ -16,7 +16,9 @@ func main() {
 	waitGroup.Add(3)
 	router := gin.Default()
 	pet := func() {
-		controllers.PetController(router)
+		petService := services.PetService{DB: dB}
+		petController := controllers.PetController{Router: router, PetService: petService}
+		petController.Handle()
 		waitGroup.Done()
 	}
 	store := func() {

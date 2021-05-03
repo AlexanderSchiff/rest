@@ -7,6 +7,14 @@ type Pet struct {
 	Category Category `json:"category" gorm:"foreignKey:PetID"`
 	Photos []Photo `gorm:"foreignKey:PetID"`
 	Tags []Tag `json:"tags" gorm:"foreignKey:PetID"`
-	Status string `json:"status"`
+	Status PetStatus `json:"status"`
 	Orders []Order `gorm:"foreignKey:PetID"`
 }
+
+// PetStatus is an enum
+type PetStatus string
+const (
+	available = "available"
+	pending = "pending"
+	sold = "sold"
+)
