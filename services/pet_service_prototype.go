@@ -8,6 +8,6 @@ type PetServicePrototype interface {
 	Update(pet models.Pet) (models.Pet, error)
 	GetByPetID(id int64) (models.Pet, error)
 	GetByStatus(status string) ([]models.Pet, error)
-	GetByTags(tags []models.Tag) ([]models.Pet, error)
+	GetByTags(tags []string) ([]models.Pet, error)
 	Delete(id int64) (string, error)
 }

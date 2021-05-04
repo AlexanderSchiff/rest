@@ -43,14 +43,10 @@ func (pS PetService) GetByStatus(status string) (outputPets []models.Pet, err er
 }
 
 // GetByTags retrieves a pet by status
-func (pS PetService) GetByTags(tags []models.Tag) (outputPets []models.Pet, err error) {
+func (pS PetService) GetByTags(tags []string) (outputPets []models.Pet, err error) {
 	var outputTags []models.Tag
 	// get names from input tags
-	var names []string
-	linq.From(tags).Select(func(t interface{}) interface{} {
-		return t.(models.Tag).Name
-	}).ToSlice(&names)
-	err = pS.DB.Where("name IN ?", names).Find(&outputTags).Error
+	err = pS.DB.Where("name IN ?", tags).Find(&outputTags).Error
 	if (err != nil) {
 		return nil, err
 	}
