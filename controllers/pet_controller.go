@@ -107,7 +107,7 @@ func (pC PetController) GetPetByID(context *gin.Context) {
 
 // UpdatePetWithForm updates a pet using a form
 func (pC PetController) UpdatePetWithForm(context *gin.Context) {
-	id, err := strconv.ParseInt(context.Param("petID"), 10, 64)
+	id, err := strconv.ParseInt(context.Param("petId"), 10, 64)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
